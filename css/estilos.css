@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+html, body {
+	height: 100%;
+	margin: 0;
+    padding: 0;
+}
+.container {
+	width: 90%;
+	margin: 0 auto;
+	font-family: sans-serif;
+	background: rgba(204, 204, 204, 0.16);
+	height: auto;
+}
+#form-options {
+	width: 40%;
+	padding: 25px;
+	height: 500px;
+	position: relative;
+	float: left;
+}
+select.inputbox {
+	width: 80%;
+	height: 35px;
+	border: solid 2px #ccc;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #4a4747;
+	margin-bottom: 25px;
+}
+#map {
+	height: 400px;
+	margin-top: 25px;
+	min-width: 400px;
+	width: 50%;
+	float: left;
+	box-shadow: 0 0 10px #484a4c;
+}
+.send-button {
+	color: #fff;
+	background-color: #5cb85c;
+	width: 110px;
+	height: 38px;
+	border-radius: 5px;
+	border-style: hidden;
+	cursor: pointer;
+}
+.explore-button {
+	width: 120px;
+	margin: 30px 0 10px 0;
+}
+.tit-general h1 {
+	text-align: center;
+	text-transform: uppercase;
+	padding-top: 20px;
+	font-family: cursive;
+	color: #5cb85c;
+}
+.msj-response {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+    width: 80%;
+    height: auto;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.msj-response h4{
+    color: #3c763d;
+}

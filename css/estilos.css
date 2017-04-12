@@ -47,7 +47,8 @@ select.inputbox {
 }
 .explore-button {
 	width: 120px;
-	margin: 30px 0 10px 0;
+	margin: 30px 90px 10px 0;
+    	float: left;
 }
 .tit-general h1 {
 	text-align: center;
@@ -68,4 +69,12 @@ select.inputbox {
 }
 .msj-response h4{
     color: #3c763d;
+}
+div#stadistics {
+    width: 50%;
+    float: right;
+    clear: both;
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: -80px;
 }

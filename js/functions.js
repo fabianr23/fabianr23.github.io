@@ -54,7 +54,6 @@ function getClima() {
 }
 function initMap() {
     window.markers = [];
-    window.arraysafety = [];
     window.contador = 1;
     var myLatLng = {lat:41.8708 , lng: -87.6505};
 
@@ -95,6 +94,7 @@ function explore() {
     deleteMarkers();
     let container = document.getElementById("container");
     let sucess = document.getElementById("msj-sucess");
+    let loading = document.getElementById("msj-loading");
     let price = document.getElementById('price_range');
     let strprice = price.options[price.selectedIndex].value;
     let safety = document.getElementById('safety');
@@ -110,8 +110,10 @@ function explore() {
 
     userform.style.display = "none";
     sucess.style.display = "block";
+    loading.style.display = "block";
     document.getElementById("searchButton").style.display = "block";
     sucess.innerHTML="<h4> Update ready </h4><p> Your consulting dates are: </p>";
+    loading.innerHTML="<h4> Loading results. Be patiente, we are procesing data ...</h4>";
     sucess.innerHTML+="<strong>Price Range: </strong>"+strprice+"<br><strong> Crime percent <: </strong>"+ strsafety +"<br><strong> Transport quality >: </strong>"+ strtransport +"<br><strong> Distance: </strong>"+ strdistance +"<br><strong> Property Type: </strong>"+ strpropertyType +"<br> <strong>Want alternative transport: </strong>"+ bycicle;
     container.style.height = '750px';
     //alert("Searching... \n We currently can't find more info, sorry =(. \n But don't worry We're working on it... Coming soon ;)");
@@ -121,8 +123,10 @@ function searchAgain() {
     document.getElementById('options').style.display = "block";
     document.getElementById("msj-sucess").style.display = "none";
     document.getElementById("searchButton").style.display = "none";
+    document.getElementById("stadistics").style.display = "none";
+    document.getElementById("msj-loading").style.display = "none";
 }
-function addMarker(location, datarray) {
+function addMarker(location, datarray, valuearray = "") {
     
     // if (distanceu < 10000){
     //     window.contador += 1;
@@ -131,6 +135,10 @@ function addMarker(location, datarray) {
     var contentString = '<div id="content">'+
                 '<strong> Property information:</strong> <br><br>' + "<strong>Community area:</strong> " + datarray.comarea + "<br> <strong>Property type:</strong> " + datarray.protype + "<br> <strong>Property name:</strong> " + datarray.proname + "<br> <strong>Adress: </strong> " + datarray.adress + "<br> <strong>Zip code: </strong> " + datarray.zip + "<br> <strong>Phone number: </strong> " + datarray.phone + "<br> <strong>Distance to University: </strong> " + datarray.distanceu + " meters " +
                 '</div>'; 
+    var valueString = '<div id="content" class="barra-titulo">'+
+                '<strong> Estimated valuation:</strong> <br><br>' +
+                '</div>'; 
+
     var infowindow = new google.maps.InfoWindow({content: contentString});
     var markerImage = new google.maps.MarkerImage
         (
@@ -144,7 +152,7 @@ function addMarker(location, datarray) {
         position: location,
         map: map,
         icon: markerImage,
-        title: 'Deparment of Electrical & Computer Engineering' 
+        title: 'Possible property' 
     });
     markers.push(marker);
     
@@ -152,7 +160,8 @@ function addMarker(location, datarray) {
             function (infowindow, marker) {
                 return function () {
                     infowindow.open(map, marker);
-                    addStatics(contentString);
+                    addStatics(valueString);
+					createDraw(valuearray);
                 };
             }(infowindow, marker)
         );
@@ -175,23 +184,15 @@ function getHouses(userdist, usertypeprop){
             var adress = info[12];
             var zip = info[13];
             var phone = info[14];
-            myLatLng={lat:lati, lng:long};
-           
+            let myLatLng={lat:lati, lng:long};
+
             var distance = google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(myLatLngOri), new google.maps.LatLng(myLatLng));
             var distanceu = Math.round(distance);
 
             if (distanceu < userdist){
                 if (protype == usertypeprop || usertypeprop == 0){
-                    arraysafety = [];
                     let datarray = {comarea,protype,proname,adress,zip,phone,distanceu};
-                    getSafety(lati, long);
-                    let safearray = arraysafety;
-                    let newarray = datarray + safearray;
-                    //console.log("arreglo final: "+ safearray);
-                    if (datarray){
-                        addMarker(myLatLng,datarray);
-                    }
-                    
+                    getSafety(lati, long, datarray);
                 } 
             }
             //getSafety(lati,long);
@@ -224,12 +225,12 @@ function getBykes(){
 function getPlaces(){
 
 }
-function getSafety(lat,lng){
+function getSafety(lati,long,datarray){
     //var urlAPI = "https://api.placeilive.com/v1/houses/search?q=Behrenstrasse%204";
-    
-    var urlAPI = "route-safety.php?ll="+lat+","+lng;
+    let myLatLng={lat:lati, lng:long};
+    let urlAPI = "route-safety.php?ll="+lati+","+long;
     //console.log(urlAPI);
-
+    
     let safety = document.getElementById('safety');
     let strsafety = safety.options[safety.selectedIndex].value;
     let transport = document.getElementById('transport');
@@ -237,6 +238,7 @@ function getSafety(lat,lng){
     let bycicle = document.querySelector('input[name="bycicle"]:checked').value;
 
     $.getJSON(urlAPI, function (data) {
+        let valores = {};
         let transplv = data[0].lqi_category[0];
         let dailylv = data[0].lqi_category[1];
         let safetylv = data[0].lqi_category[2];
@@ -246,20 +248,18 @@ function getSafety(lat,lng){
         let communlv = data[0].lqi_category[6];
         let generalv = data[0].lqi;
         //console.log(data);
-
         if (safetylv.type >= strsafety){
             if(transplv.value >= strtransport){
-                let valores = [transplv.label,transplv.value, dailylv.label, dailylv.value, safetylv.label, safetylv.value, healtlv.label, healtlv.value, sportlv.label, sportlv.value, entertlv.label, entertlv.value, communlv.label,communlv.value, generalv.label, generalv.value];
-                //console.log(valores);
-                arraysafety.push(valores);
+                valores = [transplv.label,transplv.value, dailylv.label, dailylv.value, safetylv.label, safetylv.value, healtlv.label, healtlv.value, sportlv.label, sportlv.value, entertlv.label, entertlv.value, communlv.label,communlv.value, generalv.label, generalv.value];
+                addMarker(myLatLng,datarray,valores);
                 //console.log(arraysafety);
             }
         }
-
     });
 }
 function addStatics(content){
-    $( "#stadistics" ).html( "Some information: "+content);
+    $( "#stadistics" ).html(content);
+	//$( "#stadistics" ).html( createDraw());
 }
 function setMapOnAll(map) {
         for (var i = 0; i < markers.length; i++) {
@@ -279,3 +279,91 @@ function deleteMarkers() {
         clearMarkers();
         markers = [];
       }
+function createDraw(arrayValues){
+    document.getElementById("stadistics").style.display = "block";
+    window.location.hash = '#stadistics';
+	var width = 300,
+    height = 300,
+    radius = Math.min(width, height) / 2,
+    innerRadius = 0.3 * radius;
+
+	var pie = d3.layout.pie()
+		.sort(null)
+		.value(function(d) { return d.width; });
+	
+	var tip = d3.tip()
+	  .attr('class', 'd3-tip')
+	  .offset([0, 0])
+	  .html(function(d) {
+		return d.data.label + ": <span style='color:orangered'>" + d.data.score + "</span>";
+	  });
+	
+	var arc = d3.svg.arc()
+	  .innerRadius(innerRadius)
+	  .outerRadius(function (d) { 
+		return (radius - innerRadius) * (d.data.score / 100.0) + innerRadius; 
+	  });
+	
+	var outlineArc = d3.svg.arc()
+			.innerRadius(innerRadius)
+			.outerRadius(radius);
+	
+	var svg = d3.select("#stadistics").append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.append("g")
+		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+	
+	svg.call(tip);
+	//console.log(arrayValues);
+	//console.log(arrayValues[0]);
+	var arraydata = [ {id: arrayValues[0], order: 1, score: arrayValues[1], color: "#4776B4", label: "Transportation: "+arrayValues[0], weight: 1, width: 1},
+	{id: arrayValues[2], order: 2, score: arrayValues[3], color: "#F47245", label: "Daily Live: "+arrayValues[2], weight: 1, width: 1},
+	{id: arrayValues[4], order: 3, score: arrayValues[5], color: "FAE38C", label: "Safety index: "+arrayValues[4], weight: 1, width: 1},
+	{id: arrayValues[6], order: 4, score: arrayValues[7], color: "#C7E89E", label: "Healt: "+arrayValues[6], weight: 1, width: 1},
+	{id: arrayValues[8], order: 5, score: arrayValues[9], color: "#9CD6A4", label: "Sports: "+arrayValues[8], weight: 1, width: 1},
+	{id: arrayValues[10], order: 6, score: arrayValues[11], color: "#4D9DB4", label: "Entertainment: "+arrayValues[10], weight: 1, width: 1},
+	{id: arrayValues[12], order: 7, score: arrayValues[13], color: "#11EDB4", label: "Community: "+arrayValues[12], weight: 1, width: 1},
+	];
+	
+	//d3.csv('aster_data.csv', function(error, data) {
+	
+	var data = arraydata;
+	  
+	  // for (var i = 0; i < data.score; i++) { console.log(data[i].id) }
+	  
+  var path = svg.selectAll(".solidArc")
+      .data(pie(data))
+    .enter().append("path")
+      .attr("fill", function(d) { return d.data.color; })
+      .attr("class", "solidArc")
+      .attr("stroke", "gray")
+      .attr("d", arc)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+
+  var outerPath = svg.selectAll(".outlineArc")
+      .data(pie(data))
+    .enter().append("path")
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("class", "outlineArc")
+      .attr("d", outlineArc);  
+
+
+  // calculate the weighted mean score
+  var score = 
+    data.reduce(function(a, b) {
+      //console.log('a:' + a + ', b.score: ' + b.score + ', b.weight: ' + b.weight);
+      return a + (b.score * b.weight); 
+    }, 0) / 
+    data.reduce(function(a, b) { 
+      return a + b.weight; 
+    }, 0);
+
+  svg.append("svg:text")
+    .attr("class", "aster-score")
+    .attr("dy", ".35em")
+    .attr("text-anchor", "middle") // text-align: right
+    .text(Math.round(score));
+	}

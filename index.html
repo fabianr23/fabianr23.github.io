@@ -9,79 +9,84 @@
 </head>
 <body>
 <div class="container" id="container">
-    <div class="tit-general"><h1>My best place</h1></div>
-  	<div id="form-options">
+    <div class="row-left">
+        <div class="tit-general"><h1>My best place</h1></div>
         <div class="msj-response" id="msj-sucess" style="display:none;">
         </div>
-    	<form id="options">
-        	<div class="description-txt"> Price range (dollars)  </div>
-        	<select id="price_range" name="price_range" class="inputbox">
-        		<option value="0" selected="selected">- Select price</option>
-                <option value="1">$1 - $250</option>
-        		<option value="2">$251 - $500</option>
-        		<option value="3">$500 - $1000</option>
-        		<option value="4">$1001 or more</option>
-       		</select>
-            <div class="description-txt"> Safety (Percentage of crimes committed in the area)  </div>
-            <select id="safety" name="safety" class="inputbox">
-        		<option value="0" selected="selected">- Select safety grade</option>
-                <option value="1"> < 25% </option>
-        		<option value="25"> > 25%</option>
-        		<option value="50"> > 50%</option>
-        		<option value="75"> > 75%</option>
-       		</select>
-            <div class="description-txt"> Transport (Degree of transport quality in the area)  </div>
-            <select id="transport" name="transport" class="inputbox">
-        		<option value="0" selected="selected">- Select transport grade</option>
-                <option value="1"> < 25 </option>
-        		<option value="25"> > 25 </option>
-        		<option value="50"> > 50 </option>
-        		<option value="75"> > 75 </option>
-       		</select>
-             <div class="description-txt"> Distance to the university (meters)  </div>
-            <select id="distance" name="distance" class="inputbox">
-        		<option value="0" selected="selected">- Select distance to the university</option>
-                <option value="1000"> < 1000m</option>
-        		<option value="2000"> < 2000m</option>
-        		<option value="5000"> < 5000m </option>
-        		<option value="10000"> < 10km </option>
-       		</select>
-            <div class="description-txt"> Property type  </div>
-            <select id="propertytype" name="propertytype" class="inputbox">
-        		<option value="0" selected="selected">- Select type</option>
-                <option value="Senior">Senior</option>
-        		<option value="Multifamily">Multifamily</option>
-        		<option value="Supportive Housing">Supportive Housing</option>
-       		</select>
-             <div class="description-txt"> Do you want alternative transport? (Byke)  </div>
-             <div id="bycicles">
-             	<input type="radio" name="bycicle" value="Yes"> Yes </input>
-  				<input type="radio" checked="checked" name="bycicle" value="No"> No </input>
-             </div>
-            <div class="explore-button">
-            	<button class="send-button" id="exploreButton" type="button" onclick="explore()"> Explore </button>
-            </div>
-            <div class="explore-button" id="searchallButton">
-                <button class="send-button" id="get-house" type="button" onclick="getHouses(30000,0)"> Search all options </button>
-            </div>
-             
-               
-        </form>
-        <div class="explore-button" id="searchButton" style="display: none">
-            	<button class="send-button" id="search-again" type="button" onclick="searchAgain()"> Search Again </button>
+        <div id="form-options">
+            <form id="options">
+                <div class="description-txt"> Price range (dollars)  </div>
+                <select id="price_range" name="price_range" class="inputbox">
+                    <option value="0" selected="selected">- Select price</option>
+                    <option value="1">$1 - $250</option>
+                    <option value="2">$251 - $500</option>
+                    <option value="3">$500 - $1000</option>
+                    <option value="4">$1001 or more</option>
+                </select>
+                <div class="description-txt"> Safety (Percentage of crimes committed in the area)  </div>
+                <select id="safety" name="safety" class="inputbox">
+                    <option value="0" selected="selected">- Select safety grade</option>
+                    <option value="1"> < 25% </option>
+                    <option value="25"> > 25%</option>
+                    <option value="50"> > 50%</option>
+                    <option value="75"> > 75%</option>
+                </select>
+                <div class="description-txt"> Transport (Degree of transport quality in the area)  </div>
+                <select id="transport" name="transport" class="inputbox">
+                    <option value="0" selected="selected">- Select transport grade</option>
+                    <option value="1"> < 25 </option>
+                    <option value="25"> > 25 </option>
+                    <option value="50"> > 50 </option>
+                    <option value="75"> > 75 </option>
+                </select>
+                <div class="description-txt"> Distance to the university (meters)  </div>
+                <select id="distance" name="distance" class="inputbox">
+                    <option value="0" selected="selected">- Select distance to the university</option>
+                    <option value="1000"> < 1000m</option>
+                    <option value="2000"> < 2000m</option>
+                    <option value="5000"> < 5000m </option>
+                    <option value="10000"> < 10km </option>
+                </select>
+                <div class="description-txt"> Property type  </div>
+                <select id="propertytype" name="propertytype" class="inputbox">
+                    <option value="0" selected="selected">- Select type</option>
+                    <option value="Senior">Senior</option>
+                    <option value="Multifamily">Multifamily</option>
+                    <option value="Supportive Housing">Supportive Housing</option>
+                </select>
+                <div class="description-txt"> Do you want alternative transport? (Byke)  </div>
+                <div id="bycicles">
+                    <input type="radio" name="bycicle" value="Yes"> Yes 
+                    <input type="radio" checked="checked" name="bycicle" value="No"> No
+                </div>
+                <div class="explore-button">
+                    <button class="send-button" id="exploreButton" type="button" onclick="explore()"> Explore </button>
+                </div>
+                <div class="explore-button" id="searchallButton">
+                    <button class="send-button" id="get-house" type="button" onclick="getHouses(30000,0)"> Search all options </button>
+                </div>
+            </form>
         </div>
-    
+        <div class="explore-button" id="searchButton" style="display: none">
+                    <button class="send-button" id="search-again" type="button" onclick="searchAgain()"> Search Again </button>
+                </div>
     </div>
-    <div id="map"></div>
-    <div id="stadistics"></div>
+    <div class="row-right">
+        <div class="msj-response" id="msj-loading" style="display:none;"></div>
+        <div id="map"></div>
+        <div style="clear:both"></div>
+    </div>
     <div style="clear:both"></div>
-   
-   
+    
+    <div id="stadistics"></div>
     <script type="text/javascript" src="js/functions.js"></script>
     
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-1lOX2iiwxDCvUh2PS0a_OhuRcyWeNRw&callback=initMap&libraries=geometry">
     </script>
+    
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
          
   </div>
     

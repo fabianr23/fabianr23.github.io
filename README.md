@@ -51,3 +51,4 @@ Test on Chrome, Edge and Firefox.
 Responsive desing is under construction
 
 See application running: https://fabianr23.github.io/
+Or if you have problems to see all functionality: http://codimaqsas.com/api/

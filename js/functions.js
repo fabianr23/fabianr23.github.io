@@ -44,7 +44,7 @@ function initMap() {
     var infowindow = new google.maps.InfoWindow({content: contentString});
     var markerImage = new google.maps.MarkerImage
         (
-            "images/University.png",
+            "images/University1.png",
             new google.maps.Size(64, 64, "px", "px"),
             new google.maps.Point(0, 0),
             new google.maps.Point(0, 0),
@@ -91,7 +91,7 @@ function explore() {
     loading.style.display = "block";
     document.getElementById("searchButton").style.display = "block";
     sucess.innerHTML="<h4> Update ready </h4><p> Your consulting dates are: </p>";
-    loading.innerHTML="<div class='info-home'>University: <img src='images/University.png' /></div> <div class='info-home'>Police: <img class='icon-home' src='images/Police.png' /></div> <div class='info-home'> Home: <img class='icon-home' src='images/home.png' /> </div> <div class='info-home'> Byke racks: <img class='icon-home' src='images/Byke.png' /> </div><div style='clear:both'></div>";    
+    loading.innerHTML="<div class='info-home'>University: <img src='images/University1.png' /></div> <div class='info-home'>Police: <img class='icon-home' src='images/Police.png' /></div> <div class='info-home'> Home: <img class='icon-home' src='images/home.png' /> </div> <div class='info-home'> Byke racks: <img class='icon-home' src='images/Byke.png' /> </div><div style='clear:both'></div>";    
     sucess.innerHTML+="<br><strong> Safety percent >: </strong>"+ strsafety +"<br><strong> Transport quality >: </strong>"+ strtransport +"<br><strong> Distance: </strong>"+ strdistance +"<br><strong> Property Type: </strong>"+ strpropertyType +"<br> <strong>Want alternative transport: </strong>"+ bycicle;
     container.style.height = '750px';
     //Calling functions

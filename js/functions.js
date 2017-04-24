@@ -278,7 +278,7 @@ function getSafety(lati,long,datarray){//Obtain stadistics like safety, transpor
     let myLatLng={lat:lati, lng:long};
     //Calling the php method for each of the possible filtered houses
     //*We need php method because CORS error on javascript can't get data on placeilive API
-    let urlAPI = "route-safety.php?ll="+lati+","+long; 
+    let urlAPI = "http://codimaqsas.com/mbp/route-safety.php?ll="+lati+","+long; 
     let safety = document.getElementById('safety');
     let strsafety = safety.options[safety.selectedIndex].value;
     let transport = document.getElementById('transport');
